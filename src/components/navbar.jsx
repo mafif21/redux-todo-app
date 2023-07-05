@@ -6,7 +6,7 @@ const Navbar = () => {
     <header>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container">
-          <Link className="navbar-brand" href="/">
+          <Link className="navbar-brand" to="/">
             Navbar
           </Link>
           <button
@@ -23,12 +23,12 @@ const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link active" to="/">
+                <Link className="nav-link " to="/">
                   Todo
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link active" to="/create">
+                <Link className="nav-link " to="/add">
                   Create
                 </Link>
               </li>
