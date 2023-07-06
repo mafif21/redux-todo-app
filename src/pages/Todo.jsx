@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllTasks,
+  storageSelector,
+  deleteTask,
+} from "../redux/features/todo";
 
 const Todo = () => {
+  const dispatch = useDispatch();
+  const tasks = useSelector(storageSelector.selectAll);
+
+  useEffect(() => {
+    dispatch(getAllTasks());
+  }, [dispatch]);
+
   return (
     <table className="table">
       <thead>
@@ -13,21 +26,26 @@ const Todo = () => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Homework</td>
-          <td>Tuesday</td>
-          <td className="d-flex">
-            <Link to="/edit/3" className="btn btn-primary ">
-              Edit
-            </Link>
-            <form method="post">
-              <button type="submit" className="btn btn-danger">
+        {tasks.map((task, index) => (
+          <tr key={task.id}>
+            <th scope="row">{index + 1}</th>
+            <td>{task.task}</td>
+            <td>{task.deadline}</td>
+            <td className="d-flex">
+              <Link to={`/edit/${task.id}`} className="btn btn-primary ">
+                Edit
+              </Link>
+
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => dispatch(deleteTask(task.id))}
+              >
                 Delete
               </button>
-            </form>
-          </td>
-        </tr>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

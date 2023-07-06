@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createTask } from "../redux/features/todo";
 import { useNavigate } from "react-router-dom";
 
 const Add = () => {
   const [task, setTask] = useState("");
   const [deadline, setDeadline] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const addHandle = async (e) => {
     e.preventDefault();
-    console.log(`task is ${task} the deadline is ${deadline}`);
+    await dispatch(createTask({ task, deadline }));
     navigate("/");
   };
   return (
