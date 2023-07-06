@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { addFav } from "../redux/features/favorite.js";
 import {
   getAllTasks,
   storageSelector,
@@ -31,7 +32,7 @@ const Todo = () => {
             <th scope="row">{index + 1}</th>
             <td>{task.task}</td>
             <td>{task.deadline}</td>
-            <td className="d-flex">
+            <td className="d-flex gap-1">
               <Link to={`/edit/${task.id}`} className="btn btn-primary ">
                 Edit
               </Link>
@@ -42,6 +43,14 @@ const Todo = () => {
                 onClick={() => dispatch(deleteTask(task.id))}
               >
                 Delete
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => dispatch(addFav())}
+              >
+                Favorites
               </button>
             </td>
           </tr>

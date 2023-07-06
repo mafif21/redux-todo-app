@@ -1,18 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { storageSelector, getAllTasks, editTask } from "../redux/features/todo";
 
 const Edit = () => {
   const [task, setTask] = useState("");
   const [deadline, setDeadline] = useState("");
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const navigate = useNavigate();
+  const data = useSelector((state) => storageSelector.selectById(state, id));
 
-  const addHandle = async (e) => {
+  useEffect(() => {
+    dispatch(getAllTasks());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (data) {
+      setTask(data.task);
+      setDeadline(data.deadline);
+    }
+  }, [data]);
+
+  const editHandle = async (e) => {
     e.preventDefault();
-    console.log(`task is ${task} the deadline is ${deadline}`);
+    await dispatch(editTask({ id, task, deadline }));
     navigate("/");
   };
+
   return (
-    <form className="w-50 shadow-sm py-4 px-5" onSubmit={addHandle}>
+    <form className="w-50 shadow-sm py-4 px-5" onSubmit={editHandle}>
       <div className="mb-3">
         <label htmlFor="task" className="form-label">
           Task

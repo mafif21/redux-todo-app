@@ -21,6 +21,17 @@ export const createTask = createAsyncThunk(
   }
 );
 
+export const editTask = createAsyncThunk(
+  "tasks/edittask",
+  async ({ id, task, deadline }) => {
+    const getData = await axios.patch(`http://localhost:4000/tasks/${id}`, {
+      task,
+      deadline,
+    });
+    return getData.data;
+  }
+);
+
 export const deleteTask = createAsyncThunk("tasks/deletetask", async (id) => {
   await axios.delete(`http://localhost:4000/tasks/${id}`);
   return id;
@@ -42,6 +53,12 @@ const task = createSlice({
     },
     [deleteTask.fulfilled]: (state, action) => {
       storage.removeOne(state, action.payload);
+    },
+    [editTask.fulfilled]: (state, action) => {
+      storage.updateOne(state, {
+        id: action.payload.id,
+        updates: action.payload,
+      });
     },
   },
 });

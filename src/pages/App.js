@@ -8,7 +8,6 @@ function App() {
   return (
     <div>
       <Navbar />
-
       <div className="container mt-5">
         <Routes>
           <Route path="/" element={<Todo />} />
